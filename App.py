@@ -18,16 +18,17 @@ def clean_constants():
             player['experience'] = True
         else:
             player['experience'] = False
+    
     return players, teams
 
 
 def divide_players(players, teams):
-    '''Divides a given iterable of players into equal teams'''
     panthers = []
     bandits = []
     warriors = []
     experienced_players = [player for player in players if player['experience'] == True]
     inexperienced_players = [player for player in players if player['experience'] == False]
+
     while experienced_players:
         panthers.append(experienced_players.pop())
         bandits.append(experienced_players.pop())
@@ -36,7 +37,9 @@ def divide_players(players, teams):
         panthers.append(inexperienced_players.pop())
         bandits.append(inexperienced_players.pop())
         warriors.append(inexperienced_players.pop())
+    
     teams_list = [panthers, bandits, warriors]
+
     return panthers, bandits, warriors, teams_list
 
 
@@ -45,7 +48,7 @@ def welcome():
     print("~" * len(app_name))
     print(app_name)
     print("~" * len(app_name), end="\n\n")
-    print("-" * 10, "MENU", "-" * 10, end="\n\n")
+    print("=" * 10, "MENU", "=" * 10, end="\n")
 
 
 def menu():
@@ -69,31 +72,25 @@ def display_team_info(option):
         experienced_players = len([player['experience'] for player in team if player['experience'] == True])
         inexperienced_players = len([player['experience'] for player in team if player['experience'] == False])
         guardians = [", ".join(player['guardians']) for player in team]
-        print("\n\nTEAM: {} ".format(constants.TEAMS[int(option) - 1]))
-        print("=" * 26, "\n")
+        print("\n\nTEAM: {} Stats".format(constants.TEAMS[int(option) - 1]))
+        print("~" * 26, "\n")
         print("Total Players: {}".format(len(team)))
-        print()
-        print("Player on Team: ""\n", end="")
-        index = 1
-        for player in players_on_team:
-            if player == players_on_team:
-                print(player)
-            else:
-                print(f'{index}. {player}', end="\n")
-                index += 1
-        print("\n""Guardians: ""\n", end="")
-        index = 1
-        for guardian in guardians:
-            if guardian == guardians:
-                print(guardian, end="\n\n")
-            else:
-                print(f'{index}. {guardian}', end="\n")
-                index += 1
-        print('\n''Team {} stats:'.format(constants.TEAMS[int(option) - 1]))
         print("Number of Experienced Players: {}".format(experienced_players))
         print("Number of Inexperienced Players: {}".format(inexperienced_players))
         print("Average Height: {} inches\n".format(average_height))
-        input("Press Enter to continue.")
+        print("Players on Team: ""\n", end="")
+        for player in players_on_team:
+            if player == players_on_team[-1]:
+                print(player)
+            else:
+                print(player, end=", ")
+        print("\n""Guardians: ""\n", end="")
+        for guardian in guardians:
+            if guardian == guardians[-1]:
+                print(guardian, end="\n\n")
+            else:
+                print(guardian, end=", ")
+        input("Press Enter to continue...")
         clear_screen()
         welcome()
     except IndexError:
@@ -121,7 +118,8 @@ def main():
             print()
             continue
         elif command == '3':
-            print("Come back and check out my Basketball stats again! Good bye! \n")
+            print("Thanks for checking in!!")
+            print("Come back to get more Tony's Basketball stats! Good bye!\n\n")
             break
         else:
             print("\nThat is not a valid option. Please try again. \n")
